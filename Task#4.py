@@ -1,16 +1,16 @@
-import time
-from ratelimit import limits, RateLimitException
+def cache(func):
+    cached_results = {}
+    def wrapper(*args):
+        if args in cached_results:
+            return cached_results[args]
+        result = func(*args)
+        cached_results[args] = result
+        return result
+    return wrapper
 
-@limits(calls=2, period=60)
-def some_funct():
-    print('Please dont rush!')
-    pass
-
-
-
-try:
-    some_funct()
-    
-except RateLimitException as e:
-    print("Превышен лимит скорости:", e)
-
+@cache
+def expensive_function(x):
+    print
+    return x * x
+print(expensive_function(5))  
+print(expensive_function(5),'cache result') 

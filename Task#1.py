@@ -1,7 +1,4 @@
-#1. Напишите декоратор, который обеспечивает вызов функции только пользователями с определенной ролью. 
-#Каждая функция должна иметь тип user_type со строковым типом в kwargs. Пример:
-
-def is_role(role):
+def user_role(role):
     def decorator(func):
         def wrapper(**kwargs):
             user_type = kwargs.get('user_type')  
@@ -11,7 +8,15 @@ def is_role(role):
         return wrapper  
     return decorator  
 
-@is_role('admin')
+
+@user_role('admin')
 def show_customer_receipt(**kwargs):
-    print("Receipt shown")
+    print("Welcome boss")
+
+try:
+    show_customer_receipt(user_type='user')
+except ValueError as e:
+    print(e)  
+
+show_customer_receipt(user_type='admin')     
 
